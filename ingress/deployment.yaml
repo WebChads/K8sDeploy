@@ -4,7 +4,7 @@ metadata:
   name: ingress-nginx
   namespace: ingress-ns
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: ingress-nginx
@@ -13,8 +13,25 @@ spec:
       labels:
         app: ingress-nginx
     spec:
+      serviceAccountName: ingress-nginx
       containers:
       - name: nginx-ingress
         image: registry.k8s.io/ingress-nginx/controller:v1.9.5
         ports:
         - containerPort: 80
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "200Mi"
+          limits:
+            cpu: "500m"
+            memory: "500Mi"
