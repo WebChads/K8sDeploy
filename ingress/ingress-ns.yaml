@@ -1,0 +1,8 @@
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress-ns
+  labels:
+    kubernetes.io/metadata.name: ingress-ns
+```
