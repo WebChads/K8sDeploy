@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: nginx-ingress
-        image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:1.9.6
+        image: registry.k8s.io/ingress-nginx/controller:v1.9.5
         ports:
         - containerPort: 80
