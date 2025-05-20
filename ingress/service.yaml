@@ -10,4 +10,5 @@ spec:
   - port: 80
     targetPort: 80
   type: LoadBalancer
-  loadBalancerIP: 158.160.180.26
+  externalIPs:
+  - 158.160.180.26
