@@ -54,9 +54,11 @@ master-settings:
 # kubeadm token generate
 # kubeadm token create <generated-token> --print-join-command --ttl=0
 
+
 helm:
 	curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 	helm version
+
 
 dashboard:
 	helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
@@ -89,7 +91,16 @@ dashboard:
 # https://localhost:8443
 
 
-master: prepare install master-settings helm dashboard
+monitoring:
+	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+	helm repo update
+	kubectl create namespace monitoring
+	helm install prometheus-stack prometheus-community/kube-prometheus-stack --namespace monitoring
+	# User: admin, пароль можно посмотреть:
+	# kubectl get secret --namespace monitoring prometheus-stack-grafana -o jsonpath="{.data.admin-password}" | base64 -d
+
+
+master: prepare install master-settings helm dashboard monitoring
 
 worker: prepare install
 # join Вручную добавить токен мастера
